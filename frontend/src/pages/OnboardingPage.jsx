@@ -86,7 +86,7 @@ const OnboardingPage = () => {
                 value={formState.fullName}
                 onChange={(e) => setFormState({ ...formState, fullName: e.target.value })}
                 className="input input-bordered w-full"
-                placeholder="e.g., Edin Oz"
+                placeholder="e.g., Ash Hemth"
               />
             </div>
 
