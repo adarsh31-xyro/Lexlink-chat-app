@@ -57,8 +57,9 @@ const token = jwt.sign(
   res.cookie("jwt", token, {
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
   httpOnly: true, // prevent XSS attacks
-  sameSite: "strict", // prevent CSRF attacks
-  secure: process.env.NODE_ENV === "production" // use HTTPS in production
+ sameSite: "none",
+secure: true
+
 });
 
 res.status(201).json({ success: true, user: newUser })
@@ -92,12 +93,13 @@ export async function login(req,res) {
     expiresIn: "7d",
   })
 
-  res.cookie("jwt", token, {
+res.cookie("jwt", token, {
   maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
-  httpOnly: true, // prevent XSS attacks
-  sameSite: "strict", // prevent CSRF attacks
-  secure: process.env.NODE_ENV === "production" // use HTTPS in production
+  httpOnly: true,
+  sameSite: "none", // <--- THIS IS CRUCIAL
+  secure: true      // <--- THIS IS CRUCIAL (must be true for SameSite=None)
 });
+
     
     res.status(200).json({ success: true, user });
   } catch (error) {
