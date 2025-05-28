@@ -8,6 +8,9 @@ import CallPage from "./pages/CallPage.jsx";
 import ChatPage from "./pages/ChatPage.jsx";
 import OnboardingPage from "./pages/OnboardingPage.jsx";
 
+import Legal from "./pages/Legal.jsx";
+
+
 import { Toaster } from "react-hot-toast";
 
 import PageLoader from "./components/PageLoader.jsx";
@@ -39,6 +42,9 @@ const App = () => {
             )
           }
         />
+        
+        <Route path="/legal" element={<Legal />} />
+
         <Route
           path="/signup"
           element={
