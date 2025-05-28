@@ -1,11 +1,27 @@
-import { Link, useLocation } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuthUser from "../hooks/useAuthUser";
-import { BellIcon, HomeIcon, GpuIcon, UsersIcon } from "lucide-react";
+import { BellIcon, HomeIcon, GpuIcon, UsersIcon, LogOut } from "lucide-react";
+import axios from "axios";
 
 const Sidebar = () => {
   const { authUser } = useAuthUser();
   const location = useLocation();
+  const navigate = useNavigate();
   const currentPath = location.pathname;
+
+  // Logout handler
+  const handleLogout = async () => {
+    try {
+      await axios.post(
+        "/api/auth/logout",
+        {},
+        { withCredentials: true }
+      );
+      navigate("/login");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <aside className="w-64 bg-base-200 border-r border-base-300 hidden lg:flex flex-col h-screen sticky top-0">
@@ -52,7 +68,7 @@ const Sidebar = () => {
 
       {/* USER PROFILE SECTION */}
       <div className="p-4 border-t border-base-300 mt-auto">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 mb-4">
           <div className="avatar">
             <div className="w-10 rounded-full">
               <img src={authUser?.profilePic} alt="User Avatar" />
@@ -66,8 +82,17 @@ const Sidebar = () => {
             </p>
           </div>
         </div>
+        {/* LOGOUT BUTTON */}
+        <button
+          className="btn btn-ghost w-full flex items-center gap-3 px-3 normal-case"
+          onClick={handleLogout}
+        >
+          <LogOut className="size-5 text-base-content opacity-70" />
+          <span>Exit</span>
+        </button>
       </div>
     </aside>
   );
 };
+
 export default Sidebar;
